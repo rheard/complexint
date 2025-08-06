@@ -17,9 +17,9 @@ class TestPrecision(unittest.TestCase):
         c = complexint(MISSING_NUM, 1)
 
         b += 1  # Add 1 to b theoretically, but because double is limited, not actually changing the value
-        c += 1  # Add 1 to c actually, getting a different value
-
         self.assertEqual(a.real, b.real)
+
+        c += 1  # Add 1 to c actually, getting a different value
         self.assertNotEqual(b.real, c.real)
 
 
