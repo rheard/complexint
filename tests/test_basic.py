@@ -4,6 +4,26 @@ import unittest
 from complexint import complexint
 
 
+class TestPrecision(unittest.TestCase):
+
+    def test_precision(self):
+        """Test the purpose of this package: the difference in precision when compared to complex"""
+
+        # This number + 1 (ending in 5) has too much precision to be stored in a double
+        MISSING_NUM = 2397083434877565864
+
+        a = complex(MISSING_NUM, 1)
+        b = complex(MISSING_NUM, 1)
+        c = complexint(MISSING_NUM, 1)
+
+        b += 1  # Add 1 to b theoretically, but because double is limited, not actually changing the value
+        c += 1  # Add 1 to c actually, getting a different value
+
+        self.assertEqual(a.real, b.real)
+        self.assertNotEqual(b.real, c.real)
+
+
+
 class TestComplexInt(unittest.TestCase):
 
     @classmethod
