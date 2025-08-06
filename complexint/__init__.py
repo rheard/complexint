@@ -95,12 +95,28 @@ class complexint:
         return self.__rtruediv__(other)
 
     def __pow__(self, power, modulo=None):
-        # TODO: This is not optimal, but the CPython source code uses a bunch of float methods like sin/atan2/etc...
-        #   So I'm just going to do this dumbly...
-        a = 1
-        for _ in range(power):
-            a *= self
-        return a
+        # TODO: This is probably sub-optimal,
+        #   but the CPython source code uses a bunch of float methods like sin/atan2/etc...
+        if modulo is not None:
+            raise TypeError("modulo argument not supported for this type")
+
+        if not isinstance(power, (int, float)):
+            raise NotImplementedError  # TODO: Add complex power
+        if power < 0:
+            raise NotImplementedError  # TODO
+
+        def rec(x, n):
+            if n == 0:
+                return 1  # multiplicative identity; matches your current behavior
+            if n == 1:
+                return x
+            half = rec(x, n // 2)
+            result = half * half
+            if n & 1:  # if n is odd
+                result = result * x
+            return result
+
+        return rec(self, power)
 
     def __abs__(self):
         return complexint(abs(self.real), abs(self.imag))
