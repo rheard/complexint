@@ -10,8 +10,8 @@ class complexint:
         self.imag = imag
 
     def __add__(self, other):
-        if isinstance(other, complexint):
-            return complexint(self.real + other.real, self.imag + other.imag)
+        if isinstance(other, (complexint, complex)):
+            return complexint(self.real + int(other.real), self.imag + int(other.imag))
 
         if isinstance(other, (int, float)):
             return complexint(self.real + int(other), self.imag)
@@ -22,8 +22,8 @@ class complexint:
         return self.__add__(other)
 
     def __sub__(self, other):
-        if isinstance(other, complexint):
-            return complexint(self.real - other.real, self.imag - other.imag)
+        if isinstance(other, (complexint, complex)):
+            return complexint(self.real - int(other.real), self.imag - int(other.imag))
 
         if isinstance(other, (int, float)):
             return complexint(self.real - int(other), self.imag)
@@ -40,11 +40,11 @@ class complexint:
         return complexint(self.real, self.imag)
 
     def __mul__(self, other):
-        if isinstance(other, complexint):
+        if isinstance(other, (complexint, complex)):
             a = self.real
             b = self.imag
-            c = other.real
-            d = other.imag
+            c = int(other.real)
+            d = int(other.imag)
 
             ac = a*c
             bd = b*d
@@ -63,17 +63,19 @@ class complexint:
         return self.__mul__(other)
 
     def __truediv__(self, other):
-        if isinstance(other, complexint):
+        if isinstance(other, (complexint, complex)):
             # TODO: I would not trust this...
             #   I copied the cpython source code (the non-optimal version at that),
             #   but there may be additional tweaks or optimizations for integers
-            d = other.real * other.real + other.imag * other.imag
+            oreal = int(other.real)
+            oimag = int(other.imag)
+            d = oreal * oreal + oimag * oimag
 
             if d == 0:
                 raise ZeroDivisionError
 
-            return complexint((self.real * other.real + self.imag * other.imag) // d,
-                              (self.imag * other.real - self.real * other.imag) // d)
+            return complexint((self.real * oreal + self.imag * oimag) // d,
+                              (self.imag * oreal - self.real * oimag) // d)
 
         if isinstance(other, (int, float)):
             other = int(other)
@@ -82,11 +84,15 @@ class complexint:
         raise NotImplementedError
 
     def __rtruediv__(self, other):
-        if not isinstance(other, (int, float)):
-            raise NotImplementedError
+        if isinstance(other, (int, float)):
+            other = complexint(real=other, imag=0)
+            return other.__truediv__(self)
 
-        other = complexint(real=other, imag=0)
-        return other.__truediv__(self)
+        if isinstance(other, complex):
+            other = complexint(real=int(other.real), imag=int(other.imag))
+            return other.__truediv__(self)
+
+        raise NotImplementedError
 
     def __floordiv__(self, other):
         return self.__truediv__(other)
