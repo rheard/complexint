@@ -212,10 +212,17 @@ class TestPow(TestComplexInt):
     #
     #     self.assertComplexEqual(res, res_int)
 
-    # TODO
-    # def test_power_int_negative(self):
-    #     res = self.b ** -3
-    #     res_int = self.b_int ** -3
-    #
-    #     self.assertComplexEqual(res, res_int)
+    def test_power_int_negative(self):
+        """
+        I've added this, it works.
+
+        But... for anything other than (-1+0j) and (0-1j) it doesn't mean much to do this with integer backing,
+            as that basically means to create a fraction, and this is discrete maths!
+
+        I'll leave this for now but I almost want to raise an error in this case (other than NotImplementedError)
+        """
+        res = complex(0, -1) ** -5
+        res_int = complexint(0, -1) ** -5
+
+        self.assertComplexEqual(res, res_int)
 
