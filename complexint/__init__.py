@@ -101,7 +101,7 @@ class complexint:
             raise TypeError("modulo argument not supported for this type")
 
         if not isinstance(power, (int, float)):
-            raise NotImplementedError  # TODO: Add complex power
+            raise NotImplementedError  # TODO: Add complex/complexint power
         if power < 0:
             raise NotImplementedError  # TODO
 

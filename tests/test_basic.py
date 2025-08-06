@@ -1,4 +1,5 @@
 """These are simple tests to verify complexint acts very similar to complex, but just with int output"""
+
 import unittest
 
 from complexint import complexint
@@ -160,6 +161,13 @@ class TestPow(TestComplexInt):
     # def test_power_int_reversed(self):
     #     res = 10 ** self.a
     #     res_int = 10 ** self.a_int
+    #
+    #     self.assertComplexEqual(res, res_int)
+
+    # TODO
+    # def test_power_int_negative(self):
+    #     res = self.b ** -3
+    #     res_int = self.b_int ** -3
     #
     #     self.assertComplexEqual(res, res_int)
 
