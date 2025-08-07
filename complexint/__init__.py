@@ -2,6 +2,7 @@ import numbers
 
 
 class complexint:
+    __slots__ = ('real', 'imag')
     real: int
     imag: int
 
