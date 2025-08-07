@@ -10,12 +10,14 @@ class TestPrecision(unittest.TestCase):
     def test_precision(self):
         """Test the purpose of this package: the difference in precision when compared to complex"""
 
-        # This number + 1 (ending in 5) has too much precision to be stored in a double
-        MISSING_NUM = 2397083434877565864
+        # This number + 1 has too much precision to be stored in a double
+        LAST_NUM = 2 ** 53
 
-        a = complex(MISSING_NUM, 1)
-        b = complex(MISSING_NUM, 1)
-        c = complexint(MISSING_NUM, 1)
+        a = complex(LAST_NUM, 1)
+        b = complex(LAST_NUM, 1)
+        c = complexint(LAST_NUM, 1)
+        self.assertEqual(a.real, b.real)
+        self.assertEqual(a.real, c.real)
 
         b += 1  # Add 1 to b theoretically, but because double is limited, not actually changing the value
         self.assertEqual(a.real, b.real)
