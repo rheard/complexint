@@ -226,3 +226,19 @@ class TestPow(TestComplexInt):
 
         self.assertComplexEqual(res, res_int)
 
+    # TODO:
+    #   This seems about as pointless as negative number powers
+    #   The only complex powers of complex numbers I'm seeing also seem to be large
+    # def test_power_complex(self):
+    #     res = (36+29j) ** (9+1j)
+    #     res_int = complexint(36, 29) ** (9+1j)
+    #
+    #     self.assertComplexEqual(res, res_int)
+
+    # TODO:
+    # def test_power_complex_reversed(self):
+    #     res = (36+29j) ** (9+1j)
+    #     res_int = (36+29j) ** complexint(9, 1)
+    #
+    #     self.assertComplexEqual(res, res_int)
+
