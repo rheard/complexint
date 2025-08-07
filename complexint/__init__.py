@@ -11,25 +11,34 @@ class complexint:
         self.imag = imag
 
     def __add__(self, other):
-        if isinstance(other, (complexint, complex)):
+        if isinstance(other, complexint):
+            return complexint(self.real + other.real, self.imag + other.imag)
+
+        if isinstance(other, complex):
             return complexint(self.real + int(other.real), self.imag + int(other.imag))
 
         if isinstance(other, (int, float)):
-            return complexint(self.real + int(other), self.imag)
+            if isinstance(other, float):
+                other = int(other)
 
-        raise NotImplementedError
+            return complexint(self.real + other, self.imag)
+
+        return NotImplemented
 
     def __radd__(self, other):
         return self.__add__(other)
 
     def __sub__(self, other):
-        if isinstance(other, (complexint, complex)):
+        if isinstance(other, complexint):
+            return complexint(self.real - other.real, self.imag - other.imag)
+
+        if isinstance(other, complex):
             return complexint(self.real - int(other.real), self.imag - int(other.imag))
 
         if isinstance(other, (int, float)):
             return complexint(self.real - int(other), self.imag)
 
-        raise NotImplementedError
+        return NotImplemented
 
     def __rsub__(self, other):
         return self.__neg__().__add__(other)
@@ -44,8 +53,12 @@ class complexint:
         if isinstance(other, (complexint, complex)):
             a = self.real
             b = self.imag
-            c = int(other.real)
-            d = int(other.imag)
+            if isinstance(other, complex):
+                c = int(other.real)
+                d = int(other.imag)
+            else:
+                c = other.real
+                d = other.imag
 
             ac = a*c
             bd = b*d
@@ -58,7 +71,7 @@ class complexint:
             other = int(other)
             return complexint(self.real * other, self.imag * other)
 
-        raise NotImplementedError
+        return NotImplemented
 
     def __rmul__(self, other):
         return self.__mul__(other)
@@ -68,8 +81,13 @@ class complexint:
             # TODO: I would not trust this...
             #   I copied the cpython source code (the non-optimal version at that),
             #   but there may be additional tweaks or optimizations for integers
-            oreal = int(other.real)
-            oimag = int(other.imag)
+            if isinstance(other, complex):
+                oreal = int(other.real)
+                oimag = int(other.imag)
+            else:
+                oreal = other.real
+                oimag = other.imag
+
             d = oreal * oreal + oimag * oimag
 
             if d == 0:
@@ -82,7 +100,7 @@ class complexint:
             other = int(other)
             return complexint(self.real // other, self.imag // other)
 
-        raise NotImplementedError
+        return NotImplemented
 
     def __rtruediv__(self, other):
         if isinstance(other, (int, float)):
@@ -93,7 +111,7 @@ class complexint:
             other = complexint(real=int(other.real), imag=int(other.imag))
             return other.__truediv__(self)
 
-        raise NotImplementedError
+        return NotImplemented
 
     def __floordiv__(self, other):
         return self.__truediv__(other)
@@ -140,7 +158,7 @@ class complexint:
             # TODO: Add complex/complexint power
             #   The CPython source code uses a bunch of float methods like sin/atan2/etc...
 
-        raise NotImplementedError
+        return NotImplemented
 
     def __abs__(self):
         return complexint(abs(self.real), abs(self.imag))
