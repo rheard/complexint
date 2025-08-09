@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  release:
-    types:
-      - created
 
 jobs:
   build:
@@ -18,10 +15,10 @@ jobs:
 
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
 
       - name: Install dependencies
         run: |
@@ -30,10 +27,9 @@ jobs:
 
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
-        env:
-          CIBW_SKIP: "cp27-* pp27-*"
 
       - name: Upload distribution to PyPI
         uses: actions/upload-artifact@v4
         with:
+          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
           path: ./wheelhouse/*.whl
