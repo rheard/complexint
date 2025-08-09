@@ -1,9 +1,8 @@
 [build-system]
-requires = ["setuptools >= 77.0.3"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools]
-packages = ["complexint"]
+requires = [
+    "setuptools >= 77.0.3",
+    "mypy[mypyc]"
+]
 
 [project]
 name = "complexint"
@@ -18,11 +17,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
-license = "MIT"
-license-files = ["LICEN[CS]E*"]
 keywords = ["complex", "math"]
 
 [project.urls]
 Repository = "https://github.com/rheard/complexint"
-
-
