@@ -1,16 +1,21 @@
 import numbers
 
+from typing import Union
+
+
+OP_TYPES = Union[complex, 'complexint', int, float]
+
 
 class complexint:
     __slots__ = ('real', 'imag')
     real: int
     imag: int
 
-    def __init__(self, real, imag):
+    def __init__(self, real: int = 0, imag: int = 0):
         self.real = real
         self.imag = imag
 
-    def __add__(self, other):
+    def __add__(self, other: OP_TYPES) -> 'complexint':
         if isinstance(other, complexint):
             return complexint(self.real + other.real, self.imag + other.imag)
 
@@ -29,7 +34,7 @@ class complexint:
     def __radd__(self, other):
         return self.__add__(other)
 
-    def __sub__(self, other):
+    def __sub__(self, other: OP_TYPES) -> 'complexint':
         if isinstance(other, complexint):
             return complexint(self.real - other.real, self.imag - other.imag)
 
@@ -48,13 +53,13 @@ class complexint:
     def __rsub__(self, other):
         return self.__neg__().__add__(other)
 
-    def __neg__(self):
+    def __neg__(self) -> 'complexint':
         return complexint(-self.real, -self.imag)
 
-    def __pos__(self):
+    def __pos__(self) -> 'complexint':
         return complexint(self.real, self.imag)
 
-    def __mul__(self, other):
+    def __mul__(self, other: OP_TYPES) -> 'complexint':
         if isinstance(other, (complexint, complex)):
             a = self.real
             b = self.imag
@@ -84,7 +89,7 @@ class complexint:
     def __rmul__(self, other):
         return self.__mul__(other)
 
-    def __truediv__(self, other):
+    def __truediv__(self, other: OP_TYPES) -> 'complexint':
         if isinstance(other, (complexint, complex)):
             # TODO: I would not trust this...
             #   I copied the cpython source code (the non-optimal version at that),
@@ -113,7 +118,7 @@ class complexint:
 
         return NotImplemented
 
-    def __rtruediv__(self, other):
+    def __rtruediv__(self, other: OP_TYPES) -> 'complexint':
         if isinstance(other, int):
             other = complexint(real=other, imag=0)
             return other.__truediv__(self)
@@ -135,7 +140,7 @@ class complexint:
     def __rfloordiv__(self, other):
         return self.__rtruediv__(other)
 
-    def __pow__(self, power, modulo=None):
+    def __pow__(self, power: OP_TYPES, modulo=None) -> 'complexint':
         if modulo is not None:
             raise TypeError("modulo argument not supported for this type")
 
@@ -179,10 +184,10 @@ class complexint:
 
         return NotImplemented
 
-    def __abs__(self):
+    def __abs__(self) -> 'complexint':
         return complexint(abs(self.real), abs(self.imag))
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         parens = self.real == 0
 
         lead = "(" if parens else ""
@@ -195,7 +200,7 @@ class complexint:
 
         return f"{lead}{real}{op}{imag}j{tail}"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.__repr__()
 
 
