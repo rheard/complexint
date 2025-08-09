@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    permissions:
-      id-token: write  # IMPORTANT: mandatory for trusted publishing
 
 jobs:
   build:
@@ -14,6 +12,8 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest]
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
 
     steps:
       - name: Check out the repository
@@ -32,12 +32,27 @@ jobs:
         env:
           CIBW_BUILD: "cp39-win_amd64 cp310-win_amd64 cp311-win_amd64 cp312-win_amd64 cp313-win_amd64"
 
-      - name: Upload distribution to PyPI
+      - name: Store the distribution packages
         uses: actions/upload-artifact@v4
         with:
-          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
-          path: ./wheelhouse/*.whl
+          name: python-package-distributions
+          path: wheelhouse/
+
+  publish-to-pypi:
+    name: Publish Python distribution to PyPI
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/complexint
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+    steps:
+      - name: Download all the dists
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
       - name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          packages-dir: wheelhouse/
