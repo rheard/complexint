@@ -17,10 +17,11 @@ class complexint:
         if isinstance(other, complex):
             return complexint(self.real + int(other.real), self.imag + int(other.imag))
 
-        if isinstance(other, (int, float)):
-            if isinstance(other, float):
-                other = int(other)
+        if isinstance(other, int):
+            return complexint(self.real + other, self.imag)
 
+        if isinstance(other, float):
+            other = int(other)
             return complexint(self.real + other, self.imag)
 
         return NotImplemented
@@ -35,8 +36,12 @@ class complexint:
         if isinstance(other, complex):
             return complexint(self.real - int(other.real), self.imag - int(other.imag))
 
-        if isinstance(other, (int, float)):
-            return complexint(self.real - int(other), self.imag)
+        if isinstance(other, int):
+            return complexint(self.real - other, self.imag)
+
+        if isinstance(other, float):
+            other = int(other)
+            return complexint(self.real - other, self.imag)
 
         return NotImplemented
 
@@ -67,7 +72,10 @@ class complexint:
 
             return complexint(ac - bd, ad + bc)
 
-        if isinstance(other, (int, float)):
+        if isinstance(other, int):
+            return complexint(self.real * other, self.imag * other)
+
+        if isinstance(other, float):
             other = int(other)
             return complexint(self.real * other, self.imag * other)
 
@@ -96,14 +104,22 @@ class complexint:
             return complexint((self.real * oreal + self.imag * oimag) // d,
                               (self.imag * oreal - self.real * oimag) // d)
 
-        if isinstance(other, (int, float)):
+        if isinstance(other, int):
+            return complexint(self.real // other, self.imag // other)
+
+        if isinstance(other, float):
             other = int(other)
             return complexint(self.real // other, self.imag // other)
 
         return NotImplemented
 
     def __rtruediv__(self, other):
-        if isinstance(other, (int, float)):
+        if isinstance(other, int):
+            other = complexint(real=other, imag=0)
+            return other.__truediv__(self)
+
+        if isinstance(other, float):
+            other = int(other)
             other = complexint(real=other, imag=0)
             return other.__truediv__(self)
 
