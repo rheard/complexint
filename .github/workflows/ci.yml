@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     strategy:
       matrix:
         python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
@@ -36,11 +36,6 @@ jobs:
       - name: Build the package
         run: |
           python setup.py sdist bdist_wheel
-
-      - name: Repair the wheel with auditwheel (if needed)
-        run: |
-          # Use auditwheel to fix the wheel for the target platform
-          auditwheel repair dist/*.whl -w dist/ 
 
       - name: Upload distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
