@@ -14,13 +14,12 @@ jobs:
     strategy:
       matrix:
         python-version: [3.8, 3.9, 3.10, 3.11, 3.12, 3.13]
-        include:
-          - architecture: amd64
-          - architecture: arm64  # For Apple Silicon
 
     steps:
       - name: Check out the repository
         uses: actions/checkout@v2
+        with:
+          persist-credentials: false
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
