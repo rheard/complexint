@@ -142,21 +142,24 @@ class complexint:
         if isinstance(power, (int, float)):
             # TODO: This is probably sub-optimal,
             #   but the CPython source code uses a bunch of float methods like sin/atan2/etc...
-            if power < 0:
-                return C1 / self.__pow__(-power)
+            power = int(power)
 
-            def rec(x, n):
-                if n == 0:
-                    return 1  # multiplicative identity; matches your current behavior
-                if n == 1:
-                    return x
-                half = rec(x, n // 2)
-                result = half * half
-                if n & 1:  # if n is odd
-                    result = result * x
-                return result
+            if power == 0:
+                return C1
 
-            return rec(self, power)
+            invert = power < 0
+            if invert:
+                power = -power
+
+            base = self
+            result = C1
+            while power:
+                if power & 1:
+                    result *= base
+                base *= base
+                power >>= 1
+
+            return C1 / result if invert else result
 
         if isinstance(power, (complexint, complex)):
             oreal = int(power.real)
