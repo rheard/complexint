@@ -29,8 +29,6 @@ jobs:
 
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
-        env:
-          CIBW_BUILD: ["cp39-win*", "cp31{0,1,2,3}-win*"]
 
       - name: Store the distribution packages
         uses: actions/upload-artifact@v4

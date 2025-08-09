@@ -23,3 +23,6 @@ keywords = ["complex", "math"]
 
 [project.urls]
 Repository = "https://github.com/rheard/complexint"
+
+[tool.cibuildwheel]
+build = "cp3{9,10,11,12,13}-win*"
