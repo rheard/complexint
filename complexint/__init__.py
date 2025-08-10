@@ -2,7 +2,6 @@ import numbers
 
 from typing import Union
 
-
 # Types that complexint operations are compatible with (other than complexint)
 OTHER_OP_TYPES = Union[complex, int, float]
 OP_TYPES = Union['complexint', OTHER_OP_TYPES]
@@ -87,10 +86,10 @@ class complexint:
                 c = other.real
                 d = other.imag
 
-            ac = a*c
-            bd = b*d
-            ad = a*d
-            bc = b*c
+            ac = a * c
+            bd = b * d
+            ad = a * d
+            bc = b * c
 
             return complexint(ac - bd, ad + bc)
 

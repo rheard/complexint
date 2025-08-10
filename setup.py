@@ -1,6 +1,5 @@
-from setuptools import setup, find_packages
 from mypyc.build import mypycify
-
+from setuptools import find_packages, setup
 
 setup(
     name="complexint",
@@ -13,7 +12,7 @@ setup(
     packages=find_packages(exclude=["complexint"]),
 
     ext_modules=mypycify([
-        "complexint/__init__.py"
+        "complexint/__init__.py",
     ]),
 
     license="MIT",

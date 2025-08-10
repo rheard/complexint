@@ -4,7 +4,6 @@ from typing import Union
 
 from complexint import complexint
 
-
 # TODO: I'd like to add a test to verify we have beyond int64 precision as well...
 #   However, if we cannot rely on complex to verify ourselves past 2 ** 53,
 #       how can we make a test which would need numbers larger than 2 ** 64??
@@ -75,15 +74,15 @@ class TestAdd(ComplexIntTests):
 
     def test_add_complex(self):
         """Test complexint + complex"""
-        res = self.a + (2+1j)
-        res_int = self.a_int + (2+1j)
+        res = self.a + (2 + 1j)
+        res_int = self.a_int + (2 + 1j)
 
         self.assert_complex_equal(res, res_int)
 
     def test_add_complex_reversed(self):
         """Test complex + complexint"""
-        res = (2+1j) + self.a
-        res_int = (2+1j) + self.a_int
+        res = (2 + 1j) + self.a
+        res_int = (2 + 1j) + self.a_int
 
         self.assert_complex_equal(res, res_int)
 
@@ -114,15 +113,15 @@ class TestSub(ComplexIntTests):
 
     def test_sub_complex(self):
         """Test complexint - complex"""
-        res = self.a - (2+1j)
-        res_int = self.a_int - (2+1j)
+        res = self.a - (2 + 1j)
+        res_int = self.a_int - (2 + 1j)
 
         self.assert_complex_equal(res, res_int)
 
     def test_sub_complex_reversed(self):
         """Test complex - complexint"""
-        res = (2+1j) - self.a
-        res_int = (2+1j) - self.a_int
+        res = (2 + 1j) - self.a
+        res_int = (2 + 1j) - self.a_int
 
         self.assert_complex_equal(res, res_int)
 
@@ -171,15 +170,15 @@ class TestMul(ComplexIntTests):
 
     def test_mul_complex(self):
         """Test complexint * complex"""
-        res = self.a * (2+1j)
-        res_int = self.a_int * (2+1j)
+        res = self.a * (2 + 1j)
+        res_int = self.a_int * (2 + 1j)
 
         self.assert_complex_equal(res, res_int)
 
     def test_mul_complex_reversed(self):
         """Test complex * complexint"""
-        res = (2+1j) * self.a
-        res_int = (2+1j) * self.a_int
+        res = (2 + 1j) * self.a
+        res_int = (2 + 1j) * self.a_int
 
         self.assert_complex_equal(res, res_int)
 
@@ -210,15 +209,15 @@ class TestDiv(ComplexIntTests):
 
     def test_div_complex(self):
         """Test complexint / complex"""
-        res = self.b / (1+2j)
-        res_int = self.b_int / (1+2j)
+        res = self.b / (1 + 2j)
+        res_int = self.b_int / (1 + 2j)
 
         self.assert_complex_equal(res, res_int)
 
     def test_div_complex_reversed(self):
         """Test complex / complexint"""
-        res = (2+4j) / self.a
-        res_int = (2+4j) / self.a_int
+        res = (2 + 4j) / self.a
+        res_int = (2 + 4j) / self.a_int
 
         self.assert_complex_equal(res, res_int)
 
@@ -272,4 +271,3 @@ class TestPow(ComplexIntTests):
     #     res_int = (36+29j) ** complexint(9, 1)
     #
     #     self.assertComplexEqual(res, res_int)
-
