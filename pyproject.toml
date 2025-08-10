@@ -24,5 +24,8 @@ Repository = "https://github.com/rheard/complexint"
 [tool.cibuildwheel]
 build = "cp3{8,9,10,11,12,13}-{win,macosx,manylinux}*"
 
+test-requires=["pytest"]
 test-sources="tests"
-test-command="python -m unittest discover {project}/tests"
+test-command=[
+    "python -m pytest {project}/tests",
+]

@@ -1,198 +1,191 @@
 """These are simple tests to verify complexint acts very similar to complex, but just with int output"""
 
-import unittest
-
 from complexint import complexint
 
 
-class TestPrecision(unittest.TestCase):
+def test_precision():
+    """Test the purpose of this package: the difference in precision when compared to complex"""
 
-    def test_precision(self):
-        """Test the purpose of this package: the difference in precision when compared to complex"""
+    # This number + 1 has too much precision to be stored in a double
+    LAST_NUM = 2 ** 53
 
-        # This number + 1 has too much precision to be stored in a double
-        LAST_NUM = 2 ** 53
+    a = complex(LAST_NUM, 1)
+    b = complex(LAST_NUM, 1)
+    c = complexint(LAST_NUM, 1)
+    assert a.real == b.real
+    assert a.real == c.real
 
-        a = complex(LAST_NUM, 1)
-        b = complex(LAST_NUM, 1)
-        c = complexint(LAST_NUM, 1)
-        self.assertEqual(a.real, b.real)
-        self.assertEqual(a.real, c.real)
+    b += 1  # Add 1 to b theoretically, but because double is limited, not actually changing the value
+    assert a.real == b.real
 
-        b += 1  # Add 1 to b theoretically, but because double is limited, not actually changing the value
-        self.assertEqual(a.real, b.real)
-
-        c += 1  # Add 1 to c actually, getting a different value
-        self.assertNotEqual(b.real, c.real)
+    c += 1  # Add 1 to c actually, getting a different value
+    assert b.real != c.real
 
 
+class ComplexIntTests:
+    def setup_method(self, _):
+        self.a = complex(1, 2)
+        self.b = complex(3, 6)
 
-class TestComplexInt(unittest.TestCase):
+        self.a_int = complexint(1, 2)
+        self.b_int = complexint(3, 6)
 
-    @classmethod
-    def setUpClass(cls):
-        cls.a = complex(1, 2)
-        cls.b = complex(3, 6)
+    def assert_complex_equal(self, res, res_int):
+        assert res.real == res_int.real
+        assert res.imag == res_int.imag
 
-        cls.a_int = complexint(1, 2)
-        cls.b_int = complexint(3, 6)
-
-    def assertComplexEqual(self, res, res_int):
-        self.assertEqual(res.real, res_int.real)
-        self.assertEqual(res.imag, res_int.imag)
-
-        self.assertIsInstance(res_int.real, int)
-        self.assertIsInstance(res_int.imag, int)
+        assert isinstance(res_int.real, int)
+        assert isinstance(res_int.imag, int)
 
 
-class TestAdd(TestComplexInt):
+class TestAdd(ComplexIntTests):
 
     def test_add(self):
         res = self.a + self.b
         res_int = self.a_int + self.b_int
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     def test_add_int(self):
         res = self.a + 10
         res_int = self.a_int + 10
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     def test_add_int_reversed(self):
         res = 10 + self.a
         res_int = 10 + self.a_int
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     def test_add_complex(self):
         res = self.a + (2+1j)
         res_int = self.a_int + (2+1j)
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     def test_add_complex_reversed(self):
         res = (2+1j) + self.a
         res_int = (2+1j) + self.a_int
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
 
-class TestSub(TestComplexInt):
+class TestSub(ComplexIntTests):
 
     def test_sub(self):
         res = self.a - self.b
         res_int = self.a_int - self.b_int
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     def test_sub_int(self):
         res = self.a - 10
         res_int = self.a_int - 10
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     def test_sub_int_reversed(self):
         res = 10 - self.a
         res_int = 10 - self.a_int
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     def test_sub_complex(self):
         res = self.a - (2+1j)
         res_int = self.a_int - (2+1j)
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     def test_sub_complex_reversed(self):
         res = (2+1j) - self.a
         res_int = (2+1j) - self.a_int
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
 
-class TestNegPos(TestComplexInt):
+class TestNegPos(ComplexIntTests):
 
     def test_neg(self):
         res = -self.a
         res_int = -self.a_int
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     def test_pos(self):
         res = +self.a
         res_int = +self.a_int
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
 
-class TestMul(TestComplexInt):
+class TestMul(ComplexIntTests):
 
     def test_mul(self):
         res = self.a * self.b
         res_int = self.a_int * self.b_int
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     def test_mul_int(self):
         res = self.a * 10
         res_int = self.a_int * 10
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     def test_mul_int_reversed(self):
         res = 10 * self.a
         res_int = 10 * self.a_int
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     def test_mul_complex(self):
         res = self.a * (2+1j)
         res_int = self.a_int * (2+1j)
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     def test_mul_complex_reversed(self):
         res = (2+1j) * self.a
         res_int = (2+1j) * self.a_int
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
 
-class TestDiv(TestComplexInt):
+class TestDiv(ComplexIntTests):
 
     def test_div(self):
         res = self.b / self.a
         res_int = self.b_int / self.a_int
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     def test_div_int(self):
         res = self.b / 3
         res_int = self.b_int / 3
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     def test_div_int_reversed(self):
         res = 10 / self.a
         res_int = 10 / self.a_int
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     def test_div_complex(self):
         res = self.b / (1+2j)
         res_int = self.b_int / (1+2j)
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     def test_div_complex_reversed(self):
         res = (2+4j) / self.a
         res_int = (2+4j) / self.a_int
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
 
-class TestPow(TestComplexInt):
+class TestPow(ComplexIntTests):
 
     # TODO:
     # def test_power(self):
@@ -205,7 +198,7 @@ class TestPow(TestComplexInt):
         res = self.b ** 3
         res_int = self.b_int ** 3
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     # TODO:
     # def test_power_int_reversed(self):
@@ -226,7 +219,7 @@ class TestPow(TestComplexInt):
         res = complex(0, -1) ** -5
         res_int = complexint(0, -1) ** -5
 
-        self.assertComplexEqual(res, res_int)
+        self.assert_complex_equal(res, res_int)
 
     # TODO:
     #   This seems about as pointless as negative number powers
