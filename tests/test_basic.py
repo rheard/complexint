@@ -60,17 +60,19 @@ class TestAdd(ComplexIntTests):
 
     def test_add_int(self):
         """Test complexint + int"""
-        res = self.a + 10
-        res_int = self.a_int + 10
+        for i in range(100):
+            res = self.a + i
+            res_int = self.a_int + i
 
-        self.assert_complex_equal(res, res_int)
+            self.assert_complex_equal(res, res_int)
 
     def test_add_int_reversed(self):
         """Test int + complexint"""
-        res = 10 + self.a
-        res_int = 10 + self.a_int
+        for i in range(100):
+            res = i + self.a
+            res_int = i + self.a_int
 
-        self.assert_complex_equal(res, res_int)
+            self.assert_complex_equal(res, res_int)
 
     def test_add_complex(self):
         """Test complexint + complex"""
@@ -99,17 +101,19 @@ class TestSub(ComplexIntTests):
 
     def test_sub_int(self):
         """Test complexint - int"""
-        res = self.a - 10
-        res_int = self.a_int - 10
+        for i in range(100):
+            res = self.a - i
+            res_int = self.a_int - i
 
-        self.assert_complex_equal(res, res_int)
+            self.assert_complex_equal(res, res_int)
 
     def test_sub_int_reversed(self):
         """Test int - complexint"""
-        res = 10 - self.a
-        res_int = 10 - self.a_int
+        for i in range(100):
+            res = i - self.a
+            res_int = i - self.a_int
 
-        self.assert_complex_equal(res, res_int)
+            self.assert_complex_equal(res, res_int)
 
     def test_sub_complex(self):
         """Test complexint - complex"""
@@ -156,17 +160,19 @@ class TestMul(ComplexIntTests):
 
     def test_mul_int(self):
         """Test complexint * int"""
-        res = self.a * 10
-        res_int = self.a_int * 10
+        for i in range(100):
+            res = self.a * i
+            res_int = self.a_int * i
 
-        self.assert_complex_equal(res, res_int)
+            self.assert_complex_equal(res, res_int)
 
     def test_mul_int_reversed(self):
         """Test int * complexint"""
-        res = 10 * self.a
-        res_int = 10 * self.a_int
+        for i in range(100):
+            res = i * self.a
+            res_int = i * self.a_int
 
-        self.assert_complex_equal(res, res_int)
+            self.assert_complex_equal(res, res_int)
 
     def test_mul_complex(self):
         """Test complexint * complex"""
@@ -241,10 +247,11 @@ class TestPow(ComplexIntTests):
 
     def test_power_int(self):
         """Test complexint ** int"""
-        res = self.b ** 3
-        res_int = self.b_int ** 3
+        for i in range(3, 20):
+            res = self.b ** i
+            res_int = self.b_int ** i
 
-        self.assert_complex_equal(res, res_int)
+            self.assert_complex_equal(res, res_int)
 
     # TODO:
     # def test_power_int_reversed(self):
