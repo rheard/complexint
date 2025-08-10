@@ -232,6 +232,13 @@ class TestPow(ComplexIntTests):
     #
     #     self.assertComplexEqual(res, res_int)
 
+    def test_power_identity(self):
+        """Test complexint ** 1"""
+        res = self.b ** 1
+        res_int = self.b_int ** 1
+
+        self.assert_complex_equal(res, res_int)
+
     def test_power_int(self):
         """Test complexint ** int"""
         res = self.b ** 3
