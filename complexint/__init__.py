@@ -1,6 +1,6 @@
 import numbers
 
-from typing import Union
+from typing import Iterator, Union
 
 # Types that complexint operations are compatible with (other than complexint)
 OTHER_OP_TYPES = Union[complex, int, float]
@@ -205,7 +205,7 @@ class complexint:
     def __abs__(self) -> 'complexint':
         return complexint(abs(self.real), abs(self.imag))
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator:
         return iter((self.real, self.imag))
 
     def __repr__(self) -> str:
@@ -238,12 +238,6 @@ class complexint:
 
     def __bool__(self) -> bool:
         return (self.real | self.imag) != 0
-
-    def conjugate(self) -> 'complexint':
-        return complexint(self.real, -self.imag)
-
-    def norm(self) -> int:
-        return self.real * self.real + self.imag * self.imag
 
 
 C1 = complexint(1, 0)
