@@ -9,11 +9,26 @@ OP_TYPES = Union['complexint', OTHER_OP_TYPES]
 
 
 class complexint:
+    """
+    Represents a complex number with integer real and imaginary parts.
+
+    Attributes:
+        real (int): The real component.
+        imag (int): The imaginary component.
+    """
+
     __slots__ = ('real', 'imag')
     real: int
     imag: int
 
     def __init__(self, real: int = 0, imag: int = 0):
+        """
+        Initialize a complexint instance.
+
+        Args:
+            real (int, optional): The real part of the number. Defaults to 0.
+            imag (int, optional): The imaginary part of the number. Defaults to 0.
+        """
         self.real = real
         self.imag = imag
 

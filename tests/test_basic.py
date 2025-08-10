@@ -9,7 +9,6 @@ from complexint import complexint
 
 def test_precision():
     """Test the purpose of this package: the difference in precision when compared to complex"""
-
     # This number + 1 has too much precision to be stored in a double
     LAST_NUM = 2 ** 53
 
@@ -31,6 +30,7 @@ class ComplexIntTests:
     a, b, a_int, b_int = None, None, None, None
 
     def setup_method(self, _):
+        """Setup some test data"""
         self.a = complex(1, 2)
         self.b = complex(3, 6)
 
@@ -38,7 +38,8 @@ class ComplexIntTests:
         self.b_int = complexint(3, 6)
 
     @staticmethod
-    def assert_complex_equal(res, res_int):
+    def assert_complex_equal(res, res_int: complexint):
+        """Validate the complexint is equal to the validation object, and that it is still backed by integers"""
         assert res.real == res_int.real
         assert res.imag == res_int.imag
 
