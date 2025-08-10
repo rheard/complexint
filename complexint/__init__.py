@@ -1,6 +1,6 @@
 import numbers
 
-from typing import Iterator, Union
+from typing import Iterator, Tuple, Union
 
 # Types that complexint operations are compatible with (other than complexint)
 OTHER_OP_TYPES = Union[complex, int, float]
@@ -162,7 +162,7 @@ class complexint:
         return self.__rtruediv__(other)
 
     @staticmethod
-    def _square(ar: int, ai: int) -> tuple[int, int]:
+    def _square(ar: int, ai: int) -> Tuple[int, int]:
         """Square (ar+ai*i) using 2 big-int multiplies"""
         real = (ar - ai) * (ar + ai)
         imag = (ar * ai) << 1
