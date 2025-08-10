@@ -3,7 +3,9 @@ import numbers
 from typing import Union
 
 
-OP_TYPES = Union[complex, 'complexint', int, float]
+# Types that complexint operations are compatible with (other than complexint)
+OTHER_OP_TYPES = Union[complex, int, float]
+OP_TYPES = Union['complexint', OTHER_OP_TYPES]
 
 
 class complexint:
@@ -31,7 +33,7 @@ class complexint:
 
         return NotImplemented
 
-    def __radd__(self, other):
+    def __radd__(self, other: OTHER_OP_TYPES) -> 'complexint':
         return self.__add__(other)
 
     def __sub__(self, other: OP_TYPES) -> 'complexint':
@@ -50,7 +52,7 @@ class complexint:
 
         return NotImplemented
 
-    def __rsub__(self, other):
+    def __rsub__(self, other: OTHER_OP_TYPES) -> 'complexint':
         return self.__neg__().__add__(other)
 
     def __neg__(self) -> 'complexint':
@@ -86,7 +88,7 @@ class complexint:
 
         return NotImplemented
 
-    def __rmul__(self, other):
+    def __rmul__(self, other: OTHER_OP_TYPES) -> 'complexint':
         return self.__mul__(other)
 
     def __truediv__(self, other: OP_TYPES) -> 'complexint':
@@ -118,7 +120,7 @@ class complexint:
 
         return NotImplemented
 
-    def __rtruediv__(self, other: OP_TYPES) -> 'complexint':
+    def __rtruediv__(self, other: OTHER_OP_TYPES) -> 'complexint':
         if isinstance(other, int):
             other = complexint(real=other, imag=0)
             return other.__truediv__(self)
@@ -134,13 +136,13 @@ class complexint:
 
         return NotImplemented
 
-    def __floordiv__(self, other):
+    def __floordiv__(self, other: OTHER_OP_TYPES) -> 'complexint':
         return self.__truediv__(other)
 
-    def __rfloordiv__(self, other):
+    def __rfloordiv__(self, other: OTHER_OP_TYPES) -> 'complexint':
         return self.__rtruediv__(other)
 
-    def __pow__(self, power: OP_TYPES, modulo=None) -> 'complexint':
+    def __pow__(self, power: OP_TYPES, modulo: None = None) -> 'complexint':
         if modulo is not None:
             raise TypeError("modulo argument not supported for this type")
 
