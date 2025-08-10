@@ -44,6 +44,7 @@ test-command=[
 
 [tool.ruff]
 line-length = 120
+extend-exclude=["complexint-stubs"]
 
 [tool.ruff.lint]
 preview = true
