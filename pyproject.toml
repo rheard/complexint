@@ -11,7 +11,7 @@ authors = [
 ]
 description = "A complexint class, for using large complex numbers which exceed the precision offered by the builtin complex which uses doubles."
 readme = {file = "README.md", content-type = "text/markdown"}
-requires-python = ">=3.9"
+requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
