@@ -1,5 +1,7 @@
 """These are simple tests to verify complexint acts very similar to complex, but just with int output"""
 
+from typing import Union
+
 from complexint import complexint
 
 
@@ -38,7 +40,7 @@ class ComplexIntTests:
         self.b_int = complexint(3, 6)
 
     @staticmethod
-    def assert_complex_equal(res, res_int: complexint):
+    def assert_complex_equal(res: Union[complex, complexint], res_int: complexint):
         """Validate the complexint is equal to the validation object, and that it is still backed by integers"""
         assert res.real == res_int.real
         assert res.imag == res_int.imag
