@@ -24,8 +24,11 @@ Repository = "https://github.com/rheard/complexint"
 [tool.cibuildwheel]
 build = "cp3{8,9,10,11,12,13}-{win,macosx,manylinux}*"
 
-test-requires=["pytest"]
+test-requires=["pylint", "pytest"]
 test-sources="tests"
 test-command=[
     "python -m pytest {project}/tests",
+
+    # Require docstrings on all unit tests!
+    'python -m pylint tests --disable=all --enable=C0115,C0116 --no-docstring-rgx="^(?!(test_|Test)).*"'
 ]

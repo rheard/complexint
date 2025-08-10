@@ -23,6 +23,9 @@ def test_precision():
 
 
 class ComplexIntTests:
+    """Support methods for testing complexint"""
+    a, b, a_int, b_int = None, None, None, None
+
     def setup_method(self, _):
         self.a = complex(1, 2)
         self.b = complex(3, 6)
@@ -30,7 +33,8 @@ class ComplexIntTests:
         self.a_int = complexint(1, 2)
         self.b_int = complexint(3, 6)
 
-    def assert_complex_equal(self, res, res_int):
+    @staticmethod
+    def assert_complex_equal(res, res_int):
         assert res.real == res_int.real
         assert res.imag == res_int.imag
 
@@ -39,32 +43,38 @@ class ComplexIntTests:
 
 
 class TestAdd(ComplexIntTests):
+    """Tests for __add__"""
 
     def test_add(self):
+        """Test complexint + complexint"""
         res = self.a + self.b
         res_int = self.a_int + self.b_int
 
         self.assert_complex_equal(res, res_int)
 
     def test_add_int(self):
+        """Test complexint + int"""
         res = self.a + 10
         res_int = self.a_int + 10
 
         self.assert_complex_equal(res, res_int)
 
     def test_add_int_reversed(self):
+        """Test int + complexint"""
         res = 10 + self.a
         res_int = 10 + self.a_int
 
         self.assert_complex_equal(res, res_int)
 
     def test_add_complex(self):
+        """Test complexint + complex"""
         res = self.a + (2+1j)
         res_int = self.a_int + (2+1j)
 
         self.assert_complex_equal(res, res_int)
 
     def test_add_complex_reversed(self):
+        """Test complex + complexint"""
         res = (2+1j) + self.a
         res_int = (2+1j) + self.a_int
 
@@ -72,32 +82,38 @@ class TestAdd(ComplexIntTests):
 
 
 class TestSub(ComplexIntTests):
+    """Tests for __sub__"""
 
     def test_sub(self):
+        """Test complexint - complexint"""
         res = self.a - self.b
         res_int = self.a_int - self.b_int
 
         self.assert_complex_equal(res, res_int)
 
     def test_sub_int(self):
+        """Test complexint - int"""
         res = self.a - 10
         res_int = self.a_int - 10
 
         self.assert_complex_equal(res, res_int)
 
     def test_sub_int_reversed(self):
+        """Test int - complexint"""
         res = 10 - self.a
         res_int = 10 - self.a_int
 
         self.assert_complex_equal(res, res_int)
 
     def test_sub_complex(self):
+        """Test complexint - complex"""
         res = self.a - (2+1j)
         res_int = self.a_int - (2+1j)
 
         self.assert_complex_equal(res, res_int)
 
     def test_sub_complex_reversed(self):
+        """Test complex - complexint"""
         res = (2+1j) - self.a
         res_int = (2+1j) - self.a_int
 
@@ -105,14 +121,17 @@ class TestSub(ComplexIntTests):
 
 
 class TestNegPos(ComplexIntTests):
+    """Tests for __neg__ and __pos__"""
 
     def test_neg(self):
+        """Test -complexint"""
         res = -self.a
         res_int = -self.a_int
 
         self.assert_complex_equal(res, res_int)
 
     def test_pos(self):
+        """Test +complexint"""
         res = +self.a
         res_int = +self.a_int
 
@@ -120,32 +139,38 @@ class TestNegPos(ComplexIntTests):
 
 
 class TestMul(ComplexIntTests):
+    """Tests for __mul__"""
 
     def test_mul(self):
+        """Test complexint * complexint"""
         res = self.a * self.b
         res_int = self.a_int * self.b_int
 
         self.assert_complex_equal(res, res_int)
 
     def test_mul_int(self):
+        """Test complexint * int"""
         res = self.a * 10
         res_int = self.a_int * 10
 
         self.assert_complex_equal(res, res_int)
 
     def test_mul_int_reversed(self):
+        """Test int * complexint"""
         res = 10 * self.a
         res_int = 10 * self.a_int
 
         self.assert_complex_equal(res, res_int)
 
     def test_mul_complex(self):
+        """Test complexint * complex"""
         res = self.a * (2+1j)
         res_int = self.a_int * (2+1j)
 
         self.assert_complex_equal(res, res_int)
 
     def test_mul_complex_reversed(self):
+        """Test complex * complexint"""
         res = (2+1j) * self.a
         res_int = (2+1j) * self.a_int
 
@@ -153,32 +178,38 @@ class TestMul(ComplexIntTests):
 
 
 class TestDiv(ComplexIntTests):
+    """Tests for __truediv__ and __floordiv__"""
 
     def test_div(self):
+        """Test complexint / complexint"""
         res = self.b / self.a
         res_int = self.b_int / self.a_int
 
         self.assert_complex_equal(res, res_int)
 
     def test_div_int(self):
+        """Test complexint / int"""
         res = self.b / 3
         res_int = self.b_int / 3
 
         self.assert_complex_equal(res, res_int)
 
     def test_div_int_reversed(self):
+        """Test int / complexint"""
         res = 10 / self.a
         res_int = 10 / self.a_int
 
         self.assert_complex_equal(res, res_int)
 
     def test_div_complex(self):
+        """Test complexint / complex"""
         res = self.b / (1+2j)
         res_int = self.b_int / (1+2j)
 
         self.assert_complex_equal(res, res_int)
 
     def test_div_complex_reversed(self):
+        """Test complex / complexint"""
         res = (2+4j) / self.a
         res_int = (2+4j) / self.a_int
 
@@ -186,6 +217,7 @@ class TestDiv(ComplexIntTests):
 
 
 class TestPow(ComplexIntTests):
+    """Tests for __pow__"""
 
     # TODO:
     # def test_power(self):
@@ -195,6 +227,7 @@ class TestPow(ComplexIntTests):
     #     self.assertComplexEqual(res, res_int)
 
     def test_power_int(self):
+        """Test complexint ** int"""
         res = self.b ** 3
         res_int = self.b_int ** 3
 
@@ -208,14 +241,11 @@ class TestPow(ComplexIntTests):
     #     self.assertComplexEqual(res, res_int)
 
     def test_power_int_negative(self):
-        """
-        I've added this, it works.
-
-        But... for anything other than (-1+0j) and (0-1j) it doesn't mean much to do this with integer backing,
-            as that basically means to create a fraction, and this is discrete maths!
-
-        I'll leave this for now but I almost want to raise an error in this case (other than NotImplementedError)
-        """
+        """Test complexint ** -int"""
+        # This works, but... for anything other than (-1+0j) and (0-1j) it doesn't mean much to do this with integers,
+        #   as that basically means to create a fraction, and this is for discrete maths!
+        #
+        # I'll leave this for now but I almost want to raise an error in this case (other than NotImplementedError)
         res = complex(0, -1) ** -5
         res_int = complexint(0, -1) ** -5
 
