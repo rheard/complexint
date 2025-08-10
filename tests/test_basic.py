@@ -38,8 +38,8 @@ class TestComplexInt(unittest.TestCase):
         cls.b_int = complexint(3, 6)
 
     def assertComplexEqual(self, res, res_int):
-        self.assertEquals(res.real, res_int.real)
-        self.assertEquals(res.imag, res_int.imag)
+        self.assertEqual(res.real, res_int.real)
+        self.assertEqual(res.imag, res_int.imag)
 
         self.assertIsInstance(res_int.real, int)
         self.assertIsInstance(res_int.imag, int)
