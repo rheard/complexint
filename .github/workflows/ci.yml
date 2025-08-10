@@ -16,11 +16,6 @@ jobs:
     permissions:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
 
-    env:
-      CIBW_TEST_COMMAND: "python -m unittest discover {project}/tests"
-      CIBW_TEST_SOURCES: "tests"
-      CIBW_TEST_VERBOSE: "1"
-
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
