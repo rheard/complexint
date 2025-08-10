@@ -136,21 +136,21 @@ class complexint:
 
     def __rtruediv__(self, other: OTHER_OP_TYPES) -> 'complexint':
         if isinstance(other, int):
-            other = complexint(real=other, imag=0)
-            return other.__truediv__(self)
+            new_other = complexint(real=other, imag=0)
+            return new_other.__truediv__(self)
 
         if isinstance(other, float):
             other = int(other)
-            other = complexint(real=other, imag=0)
-            return other.__truediv__(self)
+            new_other = complexint(real=other, imag=0)
+            return new_other.__truediv__(self)
 
         if isinstance(other, complex):
-            other = complexint(real=int(other.real), imag=int(other.imag))
-            return other.__truediv__(self)
+            new_other = complexint(real=int(other.real), imag=int(other.imag))
+            return new_other.__truediv__(self)
 
         return NotImplemented
 
-    def __floordiv__(self, other: OTHER_OP_TYPES) -> 'complexint':
+    def __floordiv__(self, other: OP_TYPES) -> 'complexint':
         return self.__truediv__(other)
 
     def __rfloordiv__(self, other: OTHER_OP_TYPES) -> 'complexint':
