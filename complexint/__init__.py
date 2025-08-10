@@ -161,51 +161,79 @@ class complexint:
     def __rfloordiv__(self, other: OTHER_OP_TYPES) -> 'complexint':
         return self.__rtruediv__(other)
 
+    @staticmethod
+    def _square(ar: int, ai: int) -> tuple[int, int]:
+        """Square (ar+ai*i) using 2 big-int multiplies"""
+        real = (ar - ai) * (ar + ai)
+        imag = (ar * ai) << 1
+        return real, imag
+
     def __pow__(self, power: OP_TYPES, modulo: None = None) -> 'complexint':
         if modulo is not None:
             raise TypeError("modulo argument not supported for this type")
 
-        if isinstance(power, (int, float)):
-            # TODO: This is probably sub-optimal,
-            #   but the CPython source code uses a bunch of float methods like sin/atan2/etc...
-            power = int(power)
+        # accept only integers (or __index__-able); avoid float path
+        try:
+            e = power.__index__()  # avoids float; works for numpy ints too
+        except AttributeError:
+            # fallback for plain int/float compatibility if you want it:
+            if isinstance(power, (complexint, complex)):
+                oreal = int(power.real)
+                oimag = int(power.imag)
 
-            if power == 0:
-                return C1
+                if oreal == 0 and oimag == 0:
+                    return complexint(1, 0)
 
-            invert = power < 0
-            if invert:
-                power = -power
+                if self.real == 0 and self.imag == 0:
+                    if oimag != 0 or oreal < 0:
+                        raise ZeroDivisionError('0.0 to a negative or complex power') from None
 
-            br, bi = self  # base
-            rr, ri = C1  # result
-            while power:
-                if power & 1:
-                    rr, ri = rr * br - ri * bi, rr * bi + ri * br
-                power >>= 1
-                if power:
-                    br, bi = br * br - bi * bi, (br * bi) << 1
+                    return complexint(0, 0)
 
-            result = complexint(rr, ri)
-            return C1 / result if invert else result
+                # TODO: Add complex/complexint power
+                #   The CPython source code uses a bunch of float methods like sin/atan2/etc...
 
-        if isinstance(power, (complexint, complex)):
-            oreal = int(power.real)
-            oimag = int(power.imag)
+                return NotImplemented
 
-            if oreal == 0 and oimag == 0:
-                return complexint(1, 0)
+            if isinstance(power, float):
+                e = int(power)
+            else:
+                return NotImplemented
 
-            if self.real == 0 and self.imag == 0:
-                if oimag != 0 or oreal < 0:
-                    raise ZeroDivisionError('0.0 to a negative or complex power')
+        if e == 0:
+            return complexint(1, 0)
 
-                return complexint(0, 0)
+        invert = e < 0
+        if invert:
+            e = -e
 
-            # TODO: Add complex/complexint power
-            #   The CPython source code uses a bunch of float methods like sin/atan2/etc...
+        rr = 1  # result.real
+        ri = 0  # result.imag
+        pr = self.real
+        pi = self.imag
 
-        return NotImplemented
+        # optional tiny fast paths (often hit in practice)
+        if e == 1:
+            res = complexint(pr, pi)
+            return complexint(1, 0) / res if invert else res
+        if e == 2:
+            pr, pi = self._square(pr, pi)
+            res = complexint(pr, pi)
+            return complexint(1, 0) / res if invert else res
+
+        # bit-by-bit exponentiation
+        while e:
+            if e & 1:
+                ac = rr * pr
+                bd = ri * pi
+                k = (rr + ri) * (pr + pi)
+                rr, ri = ac - bd, k - ac - bd
+            e >>= 1
+            if e:  # avoid last unnecessary square
+                pr, pi = self._square(pr, pi)
+
+        result = complexint(rr, ri)
+        return complexint(1, 0) / result if invert else result
 
     def __abs__(self) -> 'complexint':
         return complexint(abs(self.real), abs(self.imag))
