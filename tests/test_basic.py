@@ -80,7 +80,6 @@ class TestAdd(ComplexIntTests):
         self.assert_complex_equal(res, res_int)
 
     def test_add_complex_reversed(self):
-        """Test complex + complexint"""
         res = (2 + 1j) + self.a
         res_int = (2 + 1j) + self.a_int
 
