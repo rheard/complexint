@@ -76,22 +76,21 @@ class complexint:
         return complexint(self.real, self.imag)
 
     def __mul__(self, other: OP_TYPES) -> 'complexint':
-        if isinstance(other, (complexint, complex)):
+        if isinstance(other, complexint):
             a = self.real
             b = self.imag
-            if isinstance(other, complex):
-                c = int(other.real)
-                d = int(other.imag)
-            else:
-                c = other.real
-                d = other.imag
+            c = other.real
+            d = other.imag
 
-            ac = a * c
-            bd = b * d
-            ad = a * d
-            bc = b * c
+            return complexint(a * c - b * d, a * d + b * c)
 
-            return complexint(ac - bd, ad + bc)
+        if isinstance(other, complex):
+            a = self.real
+            b = self.imag
+            c = int(other.real)
+            d = int(other.imag)
+
+            return complexint(a * c - b * d, a * d + b * c)
 
         if isinstance(other, int):
             return complexint(self.real * other, self.imag * other)
@@ -106,16 +105,22 @@ class complexint:
         return self.__mul__(other)
 
     def __truediv__(self, other: OP_TYPES) -> 'complexint':
-        if isinstance(other, (complexint, complex)):
-            # TODO: I would not trust this...
-            #   I copied the cpython source code (the non-optimal version at that),
-            #   but there may be additional tweaks or optimizations for integers
-            if isinstance(other, complex):
-                oreal = int(other.real)
-                oimag = int(other.imag)
-            else:
-                oreal = other.real
-                oimag = other.imag
+        if isinstance(other, complexint):
+            # TODO: There may be additional tweaks or optimizations for integers
+            oreal = other.real
+            oimag = other.imag
+            d = oreal * oreal + oimag * oimag
+
+            if d == 0:
+                raise ZeroDivisionError
+
+            return complexint((self.real * oreal + self.imag * oimag) // d,
+                              (self.imag * oreal - self.real * oimag) // d)
+
+        if isinstance(other, complex):
+            # TODO: There may be additional tweaks or optimizations for integers
+            oreal = int(other.real)
+            oimag = int(other.imag)
 
             d = oreal * oreal + oimag * oimag
 
