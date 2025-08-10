@@ -203,6 +203,9 @@ class complexint:
     def __abs__(self) -> 'complexint':
         return complexint(abs(self.real), abs(self.imag))
 
+    def __iter__(self):
+        return iter((self.real, self.imag))
+
     def __repr__(self) -> str:
         parens = self.real == 0
 
@@ -218,6 +221,27 @@ class complexint:
 
     def __str__(self) -> str:
         return self.__repr__()
+
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, (complexint, complex)):
+            return self.real == other.real and self.imag == other.imag
+
+        if isinstance(other, (float, int)):
+            return self.imag == 0 and self.real == other
+
+        return NotImplemented
+
+    def __hash__(self) -> int:
+        return hash((self.real, self.imag))
+
+    def __bool__(self) -> bool:
+        return (self.real | self.imag) != 0
+
+    def conjugate(self) -> 'complexint':
+        return complexint(self.real, -self.imag)
+
+    def norm(self) -> int:
+        return self.real * self.real + self.imag * self.imag
 
 
 C1 = complexint(1, 0)
