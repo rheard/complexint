@@ -168,7 +168,7 @@ class complexint:
         imag = (ar * ai) << 1
         return real, imag
 
-    def __pow__(self, power: OP_TYPES, modulo: None = None) -> 'complexint':
+    def __pow__(self, power, modulo: None = None) -> 'complexint':  # noqa: ANN001
         if modulo is not None:
             raise TypeError("modulo argument not supported for this type")
 
