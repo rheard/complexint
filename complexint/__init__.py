@@ -177,16 +177,16 @@ class complexint:
             if invert:
                 power = -power
 
-            base_r, base_i = self
-            result_r, result_i = C1
+            br, bi = self  # base
+            rr, ri = C1  # result
             while power:
                 if power & 1:
-                    result_r, result_i = result_r * base_r - result_i * base_i, result_r * base_i + result_i * base_r
+                    rr, ri = rr * br - ri * bi, rr * bi + ri * br
                 power >>= 1
                 if power:
-                    base_r, base_i = base_r * base_r - base_i * base_i, (base_r * base_i) << 1
+                    br, bi = br * br - bi * bi, (br * bi) << 1
 
-            result = complexint(result_r, result_i)
+            result = complexint(rr, ri)
             return C1 / result if invert else result
 
         if isinstance(power, (complexint, complex)):
