@@ -18,6 +18,7 @@ jobs:
 
     env:
       CIBW_TEST_COMMAND: "python -m unittest {project}/tests"
+      CIBW_TEST_SOURCES: "tests"
       CIBW_TEST_VERBOSE: "1"
 
     steps:
