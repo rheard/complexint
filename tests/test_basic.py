@@ -3,6 +3,10 @@
 from complexint import complexint
 
 
+# TODO: I'd like to add a test to verify we have beyond int64 precision as well...
+#   However, if we cannot rely on complex to verify ourselves past 2 ** 53,
+#       how can we make a test which would need numbers larger than 2 ** 64??
+
 def test_precision():
     """Test the purpose of this package: the difference in precision when compared to complex"""
 
@@ -253,7 +257,6 @@ class TestPow(ComplexIntTests):
 
     # TODO:
     #   This seems about as pointless as negative number powers
-    #   The only complex powers of complex numbers I'm seeing also seem to be large
     # def test_power_complex(self):
     #     res = (36+29j) ** (9+1j)
     #     res_int = complexint(36, 29) ** (9+1j)
