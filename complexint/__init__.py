@@ -176,7 +176,6 @@ class complexint:
         try:
             e = power.__index__()  # avoids float; works for numpy ints too
         except AttributeError:
-            # fallback for plain int/float compatibility if you want it:
             if isinstance(power, (complexint, complex)):
                 oreal = int(power.real)
                 oimag = int(power.imag)
