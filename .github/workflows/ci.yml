@@ -25,6 +25,15 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Generate and place stubs
         shell: bash
         run: |
