@@ -7,6 +7,13 @@ OTHER_OP_TYPES = Union[complex, int, float]
 OP_TYPES = Union['complexint', OTHER_OP_TYPES]
 
 
+def _square(ar: int, ai: int) -> Tuple[int, int]:
+    """Square (ar+ai*i) using 2 big-int multiplies"""
+    real = (ar - ai) * (ar + ai)
+    imag = (ar * ai) << 1
+    return real, imag
+
+
 class complexint:
     """
     Represents a complex number with integer real and imaginary parts.
@@ -161,13 +168,6 @@ class complexint:
     def __rfloordiv__(self, other: OTHER_OP_TYPES) -> 'complexint':
         return self.__rtruediv__(other)
 
-    @staticmethod
-    def _square(ar: int, ai: int) -> Tuple[int, int]:
-        """Square (ar+ai*i) using 2 big-int multiplies"""
-        real = (ar - ai) * (ar + ai)
-        imag = (ar * ai) << 1
-        return real, imag
-
     def __pow__(self, power, modulo: None = None) -> 'complexint':  # noqa: ANN001
         if modulo is not None:
             raise TypeError("modulo argument not supported for this type")
@@ -217,7 +217,7 @@ class complexint:
             res = complexint(pr, pi)
             return complexint(1, 0) / res if invert else res
         if e == 2:
-            pr, pi = self._square(pr, pi)
+            pr, pi = _square(pr, pi)
             res = complexint(pr, pi)
             return complexint(1, 0) / res if invert else res
 
@@ -230,7 +230,7 @@ class complexint:
                 rr, ri = ac - bd, k - ac - bd
             e >>= 1
             if e:  # avoid last unnecessary square
-                pr, pi = self._square(pr, pi)
+                pr, pi = _square(pr, pi)
 
         result = complexint(rr, ri)
         return complexint(1, 0) / result if invert else result
