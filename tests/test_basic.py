@@ -1,8 +1,11 @@
 """These are simple tests to verify complexint acts very similar to complex, but just with int output"""
 
+from pathlib import Path
 from typing import Union
 
-from complexint import complexint
+import complexint
+
+from complexint import complexint as complexi
 
 # TODO: I'd like to add a test to verify we have beyond int64 precision as well...
 #   However, if we cannot rely on complex to verify ourselves past 2 ** 53,
@@ -15,7 +18,7 @@ def test_precision():
 
     a = complex(LAST_NUM, 1)
     b = complex(LAST_NUM, 1)
-    c = complexint(LAST_NUM, 1)
+    c = complexi(LAST_NUM, 1)
     assert a.real == b.real
     assert a.real == c.real
 
@@ -24,6 +27,12 @@ def test_precision():
 
     c += 1  # Add 1 to c actually, getting a different value
     assert b.real != c.real
+
+
+def test_compiled_test():
+    """Verify that we are running these tests with a compiled version of complexint"""
+    path = Path(complexint.__file__)
+    return path.suffix.lower() == '.pyd'
 
 
 class ComplexIntTests:
@@ -35,11 +44,11 @@ class ComplexIntTests:
         self.a = complex(1, 2)
         self.b = complex(3, 6)
 
-        self.a_int = complexint(1, 2)
-        self.b_int = complexint(3, 6)
+        self.a_int = complexi(1, 2)
+        self.b_int = complexi(3, 6)
 
     @staticmethod
-    def assert_complex_equal(res: Union[complex, complexint], res_int: complexint):
+    def assert_complex_equal(res: Union[complex, complexi], res_int: complexi):
         """Validate the complexint is equal to the validation object, and that it is still backed by integers"""
         assert res.real == res_int.real
         assert res.imag == res_int.imag
@@ -267,7 +276,7 @@ class TestPow(ComplexIntTests):
         #
         # I'll leave this for now but I almost want to raise an error in this case (other than NotImplementedError)
         res = complex(0, -1) ** -5
-        res_int = complexint(0, -1) ** -5
+        res_int = complexi(0, -1) ** -5
 
         self.assert_complex_equal(res, res_int)
 
