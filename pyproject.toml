@@ -30,7 +30,7 @@ keywords = ["complex", "math"]
 Repository = "https://github.com/rheard/complexint"
 
 [tool.cibuildwheel]
-build = "cp3{8,9,10,11,12,13}-{win,macosx,manylinux,android}*"
+build = "cp3{8,9,10,11,12,13}-{win,macosx,manylinux}*"
 
 test-requires=["ruff", "pylint", "pytest"]
 test-command=[

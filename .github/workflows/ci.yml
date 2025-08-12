@@ -44,9 +44,6 @@ jobs:
       - name: Build wheels
         run: |
           python -m cibuildwheel --output-dir wheelhouse
-          if [ "$RUNNER_OS" == "Linux" ]; then
-               python -m cibuildwheel --platform android --output-dir wheelhouse
-          fi
         shell: bash
 
       - name: Store the distribution packages
