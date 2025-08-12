@@ -29,7 +29,7 @@ def test_precision():
     assert b.real != c.real
 
 
-def test_compiled_test():
+def test_compiled_tests():
     """Verify that we are running these tests with a compiled version of complexint"""
     path = Path(complexint.__file__)
     return path.suffix.lower() == '.pyd'
