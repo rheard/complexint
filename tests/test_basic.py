@@ -11,6 +11,12 @@ from complexint import complexint as complexi
 #   However, if we cannot rely on complex to verify ourselves past 2 ** 53,
 #       how can we make a test which would need numbers larger than 2 ** 64??
 
+def test_compiled_tests():
+    """Verify that we are running these tests with a compiled version of complexint"""
+    path = Path(complexint.__file__)
+    return path.suffix.lower() == '.pyd'
+
+
 def test_precision():
     """Test the purpose of this package: the difference in precision when compared to complex"""
     # This number + 1 has too much precision to be stored in a double
@@ -27,12 +33,6 @@ def test_precision():
 
     c += 1  # Add 1 to c actually, getting a different value
     assert b.real != c.real
-
-
-def test_compiled_tests():
-    """Verify that we are running these tests with a compiled version of complexint"""
-    path = Path(complexint.__file__)
-    return path.suffix.lower() == '.pyd'
 
 
 class ComplexIntTests:
