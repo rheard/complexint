@@ -7,10 +7,6 @@ import complexint
 
 from complexint import complexint as complexi
 
-# TODO: I'd like to add a test to verify we have beyond int64 precision as well...
-#   However, if we cannot rely on complex to verify ourselves past 2 ** 53,
-#       how can we make a test which would need numbers larger than 2 ** 64??
-
 def test_compiled_tests():
     """Verify that we are running these tests with a compiled version of complexint"""
     path = Path(complexint.__file__)
@@ -33,6 +29,18 @@ def test_precision():
 
     c += 1  # Add 1 to c actually, getting a different value
     assert b.real != c.real
+
+
+def test_int_precision():
+    """Validate mypyc isn't using limited-precision integers like int64 or something"""
+    LAST_NUM = 2 ** 64
+
+    a = complexi(LAST_NUM, 1)
+    assert a.real == LAST_NUM
+
+    a += 1
+    assert a.real != LAST_NUM
+    assert a.real > 100
 
 
 class ComplexIntTests:
