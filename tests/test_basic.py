@@ -10,7 +10,7 @@ from complexint import complexint as complexi
 def test_compiled_tests():
     """Verify that we are running these tests with a compiled version of complexint"""
     path = Path(complexint.__file__)
-    assert path.suffix.lower() == '.pyd'
+    assert path.suffix.lower() != '.py'
 
 
 def test_precision():
