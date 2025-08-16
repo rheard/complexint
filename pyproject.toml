@@ -129,3 +129,4 @@ force-wrap-aliases = true
 combine-as-imports = true
 lines-after-imports = 1
 lines-between-types = 1
+known-first-party = ["complexint"]
