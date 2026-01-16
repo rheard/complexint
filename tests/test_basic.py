@@ -302,3 +302,13 @@ class TestPow(ComplexIntTests):
     #     res_int = (36+29j) ** complexint(9, 1)
     #
     #     self.assertComplexEqual(res, res_int)
+
+
+def test_conjugate():
+    """Tests for the conjugate method"""
+
+    a = complexi(2, 5)
+    b = a.conjugate()
+
+    assert b.real == 2
+    assert b.imag == -5

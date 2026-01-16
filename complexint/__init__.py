@@ -128,7 +128,6 @@ class complexint:
             # TODO: There may be additional tweaks or optimizations for integers
             oreal = int(other.real)
             oimag = int(other.imag)
-
             d = oreal * oreal + oimag * oimag
 
             if d == 0:
@@ -270,6 +269,9 @@ class complexint:
 
     def __bool__(self) -> bool:
         return (self.real | self.imag) != 0
+
+    def conjugate(self):
+        return complexint(self.real, -self.imag)
 
 
 C1 = complexint(1, 0)
