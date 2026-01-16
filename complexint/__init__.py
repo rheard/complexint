@@ -40,17 +40,17 @@ class complexint:
 
     def __add__(self, other: OP_TYPES) -> 'complexint':
         if isinstance(other, complexint):
-            return complexint(self.real + other.real, self.imag + other.imag)
+            return self.__class__(self.real + other.real, self.imag + other.imag)
 
         if isinstance(other, complex):
-            return complexint(self.real + int(other.real), self.imag + int(other.imag))
+            return self.__class__(self.real + int(other.real), self.imag + int(other.imag))
 
         if isinstance(other, int):
-            return complexint(self.real + other, self.imag)
+            return self.__class__(self.real + other, self.imag)
 
         if isinstance(other, float):
             other = int(other)
-            return complexint(self.real + other, self.imag)
+            return self.__class__(self.real + other, self.imag)
 
         return NotImplemented
 
@@ -59,17 +59,17 @@ class complexint:
 
     def __sub__(self, other: OP_TYPES) -> 'complexint':
         if isinstance(other, complexint):
-            return complexint(self.real - other.real, self.imag - other.imag)
+            return self.__class__(self.real - other.real, self.imag - other.imag)
 
         if isinstance(other, complex):
-            return complexint(self.real - int(other.real), self.imag - int(other.imag))
+            return self.__class__(self.real - int(other.real), self.imag - int(other.imag))
 
         if isinstance(other, int):
-            return complexint(self.real - other, self.imag)
+            return self.__class__(self.real - other, self.imag)
 
         if isinstance(other, float):
             other = int(other)
-            return complexint(self.real - other, self.imag)
+            return self.__class__(self.real - other, self.imag)
 
         return NotImplemented
 
@@ -77,10 +77,10 @@ class complexint:
         return self.__neg__().__add__(other)
 
     def __neg__(self) -> 'complexint':
-        return complexint(-self.real, -self.imag)
+        return self.__class__(-self.real, -self.imag)
 
     def __pos__(self) -> 'complexint':
-        return complexint(self.real, self.imag)
+        return self.__class__(self.real, self.imag)
 
     def __mul__(self, other: OP_TYPES) -> 'complexint':
         if isinstance(other, complexint):
@@ -89,7 +89,7 @@ class complexint:
             c = other.real
             d = other.imag
 
-            return complexint(a * c - b * d, a * d + b * c)
+            return self.__class__(a * c - b * d, a * d + b * c)
 
         if isinstance(other, complex):
             a = self.real
@@ -97,14 +97,14 @@ class complexint:
             c = int(other.real)
             d = int(other.imag)
 
-            return complexint(a * c - b * d, a * d + b * c)
+            return self.__class__(a * c - b * d, a * d + b * c)
 
         if isinstance(other, int):
-            return complexint(self.real * other, self.imag * other)
+            return self.__class__(self.real * other, self.imag * other)
 
         if isinstance(other, float):
             other = int(other)
-            return complexint(self.real * other, self.imag * other)
+            return self.__class__(self.real * other, self.imag * other)
 
         return NotImplemented
 
@@ -121,8 +121,8 @@ class complexint:
             if d == 0:
                 raise ZeroDivisionError
 
-            return complexint((self.real * oreal + self.imag * oimag) // d,
-                              (self.imag * oreal - self.real * oimag) // d)
+            return self.__class__((self.real * oreal + self.imag * oimag) // d,
+                                  (self.imag * oreal - self.real * oimag) // d)
 
         if isinstance(other, complex):
             # TODO: There may be additional tweaks or optimizations for integers
@@ -133,30 +133,30 @@ class complexint:
             if d == 0:
                 raise ZeroDivisionError
 
-            return complexint((self.real * oreal + self.imag * oimag) // d,
-                              (self.imag * oreal - self.real * oimag) // d)
+            return self.__class__((self.real * oreal + self.imag * oimag) // d,
+                                  (self.imag * oreal - self.real * oimag) // d)
 
         if isinstance(other, int):
-            return complexint(self.real // other, self.imag // other)
+            return self.__class__(self.real // other, self.imag // other)
 
         if isinstance(other, float):
             other = int(other)
-            return complexint(self.real // other, self.imag // other)
+            return self.__class__(self.real // other, self.imag // other)
 
         return NotImplemented
 
     def __rtruediv__(self, other: OTHER_OP_TYPES) -> 'complexint':
         if isinstance(other, int):
-            new_other = complexint(real=other, imag=0)
+            new_other = self.__class__(real=other, imag=0)
             return new_other.__truediv__(self)
 
         if isinstance(other, float):
             other = int(other)
-            new_other = complexint(real=other, imag=0)
+            new_other = self.__class__(real=other, imag=0)
             return new_other.__truediv__(self)
 
         if isinstance(other, complex):
-            new_other = complexint(real=int(other.real), imag=int(other.imag))
+            new_other = self.__class__(real=int(other.real), imag=int(other.imag))
             return new_other.__truediv__(self)
 
         return NotImplemented
@@ -180,13 +180,13 @@ class complexint:
                 oimag = int(power.imag)
 
                 if oreal == 0 and oimag == 0:
-                    return complexint(1, 0)
+                    return self.__class__(1, 0)
 
                 if self.real == 0 and self.imag == 0:
                     if oimag != 0 or oreal < 0:
                         raise ZeroDivisionError('0.0 to a negative or complex power') from None
 
-                    return complexint(0, 0)
+                    return self.__class__(0, 0)
 
                 # TODO: Add complex/complexint power
                 #   The CPython source code uses a bunch of float methods like sin/atan2/etc...
@@ -199,7 +199,7 @@ class complexint:
                 return NotImplemented
 
         if e == 0:
-            return complexint(1, 0)
+            return self.__class__(1, 0)
 
         invert = e < 0
         if invert:
@@ -212,12 +212,12 @@ class complexint:
 
         # optional tiny fast paths (often hit in practice)
         if e == 1:
-            res = complexint(pr, pi)
-            return complexint(1, 0) / res if invert else res
+            res = self.__class__(pr, pi)
+            return self.__class__(1, 0) / res if invert else res
         if e == 2:
             pr, pi = _square(pr, pi)
-            res = complexint(pr, pi)
-            return complexint(1, 0) / res if invert else res
+            res = self.__class__(pr, pi)
+            return self.__class__(1, 0) / res if invert else res
 
         # bit-by-bit exponentiation
         while e:
@@ -230,11 +230,11 @@ class complexint:
             if e:  # avoid last unnecessary square
                 pr, pi = _square(pr, pi)
 
-        result = complexint(rr, ri)
-        return complexint(1, 0) / result if invert else result
+        result = self.__class__(rr, ri)
+        return self.__class__(1, 0) / result if invert else result
 
     def __abs__(self) -> 'complexint':
-        return complexint(abs(self.real), abs(self.imag))
+        return self.__class__(abs(self.real), abs(self.imag))
 
     def __iter__(self) -> Iterator:
         return iter((self.real, self.imag))
@@ -271,7 +271,7 @@ class complexint:
         return (self.real | self.imag) != 0
 
     def conjugate(self):
-        return complexint(self.real, -self.imag)
+        return self.__class__(self.real, -self.imag)
 
 
 C1 = complexint(1, 0)
