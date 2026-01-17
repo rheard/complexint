@@ -1,6 +1,10 @@
 import numbers
+import warnings
 
 from typing import Iterator, Tuple, Union
+
+warnings.warn("The complexint package has been deprecated. Please use the quadint package instead.",
+              DeprecationWarning, stacklevel=2)
 
 # Types that complexint operations are compatible with (other than complexint)
 OTHER_OP_TYPES = Union[complex, int, float]
