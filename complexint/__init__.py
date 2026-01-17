@@ -271,6 +271,7 @@ class complexint:
         return (self.real | self.imag) != 0
 
     def conjugate(self):
+        """A recreation of the existing conjugate method"""
         return self.__class__(self.real, -self.imag)
 
 
